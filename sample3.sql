@@ -1,4 +1,4 @@
---more than 10 tables from various data sources uniformed and joined into one model for summarized weekly reporting
+--Data from various sources uniformed and joined into one model for a summarized weekly report view
 
 with hours_offered as (
 
@@ -59,9 +59,9 @@ group by 1)
 select 
 date_trunc('week',booking_start_date_utc)::date + 6 as reporting_week_ending,
 (sum(case when status = 'no-showed' and doctor_type = 'Pediatricians' then 1 else 0 end)) / (sum(case when doctor_type = 'Pediatricians' then 1 else null end))::float as pediatricians_no_show_rate,
-(sum(case when status = 'no-showed' and doctor_type = 'Pediatricians' and booking_sequence_type = 'initial' then 1 else 0 end)) / (sum(case when doctor_type = 'Pediatricians' and booking_sequence_type = 'initial' then 1 else null end))::float as Pediatricians_initial_no_show_rate,
+(sum(case when status = 'no-showed' and doctor_type = 'Pediatricians' and booking_sequence_type = 'initial' then 1 else 0 end)) / (sum(case when doctor_type = 'Pediatricians' and booking_sequence_type = 'initial' then 1 else null end))::float as pediatricians_initial_no_show_rate,
 (sum(case when status = 'no-showed' and doctor_type = 'Dentist' then 1 else 0 end)) / (sum(case when doctor_type = 'Dentist' then 1 else null end))::float as dentist_no_show_rate,
-(sum(case when status = 'no-showed' and doctor_type = 'Dentist' and booking_sequence_type = 'initial' then 1 else 0 end)) / (sum(case when doctor_type = 'Dentist' then 1 else null end))::float as Dentist_initial_no_show_rate
+(sum(case when status = 'no-showed' and doctor_type = 'Dentist' and booking_sequence_type = 'initial' then 1 else 0 end)) / (sum(case when doctor_type = 'Dentist' then 1 else null end))::float as dentist_initial_no_show_rate
 from sample.table4
 group by 1)
 
@@ -73,9 +73,9 @@ sum(case when doctor_type = 'Pediatricians' then active_doctors end) as total_pe
 sum(case when specialty_final = 'Specialist' then active_doctors end) as total_specialists, 
 sum(case when specialty_final = 'NP' then active_doctors end) as total_np,
 sum(case when specialty_final = 'PCP' then active_doctors end) as other_non_psych,
-(max(case when dental_total_hours_offered != 0 then dental_total_hours_offered end))/sum(case when doctor_type = 'Pediatricians' then active_doctors else null end) as avg_time_offered_per_Pediatricians,
+(max(case when dental_total_hours_offered != 0 then dental_total_hours_offered end))/sum(case when doctor_type = 'Pediatricians' then active_doctors else null end) as avg_time_offered_per_pediatricians,
 sum(case when doctor_type = 'Dentist' then active_doctors end) as total_Dentist, 
-(max(case when surgery_total_hours_offered != 0 then surgery_total_hours_offered end))/sum(case when doctor_type = 'Dentist' then active_doctors else null end) as avg_time_offered_per_Dentist, 
+(max(case when surgery_total_hours_offered != 0 then surgery_total_hours_offered end))/sum(case when doctor_type = 'Dentist' then active_doctors else null end) as avg_time_offered_per_dentist, 
 sum(case when doctor_type = 'Pediatricians' then active_doctors end) + sum(case when doctor_type = 'Dentist' then active_doctors end) as network_count
 from sample.table5
 group by 1)
