@@ -3,7 +3,7 @@ with practitioner_market_share_bookings_offerings as
 (select 
 reporting_week_ending::date,
 reporting_week_ending_table_max::date,
-datediff(day,reporting_week_ending::date,(select max(reporting_week_ending_table_max::date) reporting_week_ending_table_max from {{ref('practitioner_slot_opportunity')}})) as days_from_reporting_week_to_max_week,
+datediff(day,reporting_week_ending::date,(select max(reporting_week_ending_table_max::date) reporting_week_ending_table_max from sample.table)) as days_from_reporting_week_to_max_week,
 practitioner_user_id,
 practitioner_id,
 practitioner_type,
@@ -15,7 +15,8 @@ case when practitioner_type = 'Provider' then net_initial_booked_slots_medicatio
 case when practitioner_type = 'Provider' then net_initial_booked_slots_medication else net_initial_booked_slots_therapy end as net_initial_booked_slots,
 case when practitioner_type = 'Provider' then net_total_slots_medication_p else net_total_slots_therapy_p end as net_total_slots_offered_p,
 case when practitioner_type = 'Provider' then net_total_slots_medication else net_total_slots_therapy end as net_total_slots_offered
-from {{ref('practitioner_slot_opportunity')}})
+--aliased table name
+from sample.table)
 
 ,r7_slots as 
 
@@ -112,7 +113,8 @@ coalesce(c.r28_net_total_slots_offered_p,0) as r28_net_total_slots_offered_p,
 coalesce(e.r28_net_total_slots_offered,0) as r28_net_total_slots_offered,
 coalesce(c.r28_net_booked_slots_p/nullif(e.r28_net_total_slots_offered,0),0) as r28_net_booked_from_total_slots_share,
 coalesce(c.r28_net_initial_booked_slots_p/nullif(e.r28_net_total_slots_offered,0),0) as r28_net_initial_booked_from_total_slots_share
-from {{ source('analytics_dev', 'omar_export_practitioner_status') }} a  
+--aliased table name
+from sample.table2 a  
 left join r7_market_share_bookings_offerings b on a.practitioner_id = b.practitioner_id and a.practitioner_type = b.practitioner_type
 inner join r28_market_share_bookings_offerings c on a.practitioner_id = c.practitioner_id and a.practitioner_type = c.practitioner_type
 left join r7_slots d on a.practitioner_type = d.practitioner_type
