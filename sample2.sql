@@ -1,3 +1,5 @@
+----Data set will display each unique doctor and their business market share in their city service areas. Data produced will allow company to manage panel growth for each doctor on a city level
+
 with doctor_market_share_bookings_offerings as
 
 (select 

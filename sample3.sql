@@ -1,4 +1,4 @@
---Data from various sources uniformed and joined into one model for a summarized weekly report view
+--Data from various sources uniformed and joined into one model for a summarized weekly report view visualized in tableau
 
 with hours_offered as (
 
@@ -47,8 +47,8 @@ group by 1,2)
 
 select 
 reporting_week_ending, 
-count(case when Credit_rx_initial_avg_hrs_to_nxt_available > 72 then booking_state end) as Credit_rx_greater_than_72_hrs_to_next_available_count,
-count(case when Credit_surgery_initial_avg_hrs_to_nxt_available > 72 then booking_state end) as Credit_surgery_greater_than_72_hrs_to_next_available_count,
+count(case when Credit_rx_initial_avg_hrs_to_nxt_available > 72 then booking_state end) as credit_rx_greater_than_72_hrs_to_next_available_count,
+count(case when Credit_surgery_initial_avg_hrs_to_nxt_available > 72 then booking_state end) as credit_surgery_greater_than_72_hrs_to_next_available_count,
 count(case when employer_rx_initial_avg_hrs_to_nxt_available > 72 then booking_state end) as employer_rx_greater_than_72_hrs_to_next_available_count,
 count(case when employer_surgery_initial_avg_hrs_to_nxt_available > 72 then booking_state end) as employer_surgery_greater_than_72_hrs_to_next_available_count
 from states_avg_hrs_to_nxt_available_greater_than_72_hrs
