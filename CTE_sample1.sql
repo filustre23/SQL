@@ -1,4 +1,4 @@
---Data set will display each unique doctor and their business market share in their city service areas. Data produced will allow company to manage panel growth for each doctor
+--Data set will display each unique doctor and their business market share in their city service areas. Data produced will allow company to manage panel growth for each doctor. Data set will power dashboard visualizations. 
 
 with doctor_market_share_bookings_offerings as
 
@@ -108,13 +108,13 @@ a.doctor_user_id,
 a.doctor_type,
 a.full_name,
 a.reporting_city,
+count(*) over (partition by a.doctor_user_id order by reporting_city) as city_service_counts,
 coalesce(b.r7_net_booked_appointments_p,0) as r7_net_booked_appointments_p,
 coalesce(c.r7_net_booked_appointments,0) as r7_net_booked_appointments,
 coalesce(b.r7_net_booked_appointments_p/nullif(c.r7_net_booked_appointments,0),0) as r7_net_booked_appointments_share,
 coalesce(b.r7_net_initial_booked_appointments_p,0) as r7_net_initial_booked_appointments_p, 
 coalesce(c.r7_net_initial_booked_appointments,0) as r7_net_initial_booked_appointments, 
 coalesce(b.r7_net_initial_booked_appointments_p/nullif(c.r7_net_initial_booked_appointments,0),0) as r7_net_initial_booked_appointments_share,
-coalesce(b.r7_net_total_appointments_offered_p,0) as r7_net_total_appointments_offered_p,
 coalesce(c.r7_net_total_appointments_offered,0) as r7_net_total_appointments_offered,
 coalesce(b.r7_net_total_appointments_offered_p,0)/nullif(coalesce(c.r7_net_total_appointments_offered,0),0) as r7_net_offers_from_total_offers_share,
 coalesce(b.r7_net_booked_appointments_p/nullif(c.r7_net_total_appointments_offered,0),0) as r7_net_booked_from_total_appointments_share,

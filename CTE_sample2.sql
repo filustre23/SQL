@@ -1,4 +1,4 @@
-----Data set will display each unique doctor and their business market share in their city service areas. Data produced will allow company to manage panel growth for each doctor on a city level
+----Data set will display each unique doctor and their business market share in their city service areas. Data produced will allow company to manage panel growth for each doctor on a city level. Data set will power dashboard visualizations.
 
 with doctor_market_share_bookings_offerings as
 
@@ -90,6 +90,7 @@ group by 1,2,3,4)
 select 
 a.doctor_type,
 a.doctor_id,
+row_number() over (partition by a.doctor_id order by ),
 trim(a.first_name) || ' ' || trim(a.last_name) as full_name,
 case when a.doctor_type = 'Pediatricians' then 'p'||a.doctor_id||'p'
       when a.doctor_type = 'Dentist' then 'd'||a.doctor_id||'d' end as doctor_user_id,

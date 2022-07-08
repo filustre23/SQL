@@ -1,4 +1,4 @@
---Data from various sources uniformed and joined into one model for a summarized weekly report view visualized in tableau
+--Data from various sources uniformed and joined into one model for a summarized weekly report in a dashboard.
 
 with hours_offered as (
 
@@ -116,8 +116,7 @@ d.pediatricians_no_show_rate,
 d.pediatricians_initial_no_show_rate,
 d.dentist_no_show_rate,
 d.dentist_initial_no_show_rate,
-e.total_pediatricianss,
-e.total_specialists,
+e.total_pediatricians,
 e.total_np,
 e.other_non_psych,
 e.avg_time_offered_per_pediatricians,
